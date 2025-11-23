@@ -696,7 +696,19 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			options.Notifications = new WsFederationAuthenticationNotifications();
 
-			if (onRedirectToIdentityProvider != null) options.Notifications.RedirectToIdentityProvider = notification => onRedirectToIdentityProvider(notification, whr);
+			if (onRedirectToIdentityProvider != null) options.Notifications.RedirectToIdentityProvider = notification =>
+			{
+				if (string.IsNullOrWhiteSpace(notification.OwinContext.Authentication.AuthenticationResponseChallenge?.Properties?.RedirectUri))
+				{
+					return onRedirectToIdentityProvider(notification, whr);
+				}
+
+				var lang = notification.OwinContext.Authentication.AuthenticationResponseChallenge.Properties.RedirectUri.IndexOf("en-CA", StringComparison.CurrentCultureIgnoreCase) > 0 ? "E" : "F";
+				notification.ProtocolMessage.Parameters.Add("lang", lang);
+				return onRedirectToIdentityProvider(notification, whr);
+
+			};
+
 			if (onSecurityTokenValidated != null) options.Notifications.SecurityTokenValidated = onSecurityTokenValidated;
 
 			SetTokenValidationParameters(settings, options.TokenValidationParameters, defaultValidAudiences);
