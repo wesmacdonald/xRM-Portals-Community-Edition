@@ -180,13 +180,14 @@ namespace Adxstudio.Xrm.Activity
 			var activities = activityPointerCollection.Records.Select(activityPointer => new Activity(activityPointer, regarding));
 			return new ActivityCollection(activities, activityPointerCollection.TotalRecordCount);
 		}
-		
-		/// <summary>
-		/// This is used to retrieve the field value from the Annotation fields on the entity.
-		/// </summary>
-		/// <param name="fieldName"></param>
-		/// <returns></returns>
-		protected string GetFieldValue(Entity entity, string fieldName)
+
+        /// <summary>
+        /// This is used to retrieve the field value from the Annotation fields on the entity.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="fieldName"></param>
+        /// <returns></returns>
+        protected string GetFieldValue(Entity entity, string fieldName)
 		{
 			return entity.Attributes[fieldName].ToString();
 		}

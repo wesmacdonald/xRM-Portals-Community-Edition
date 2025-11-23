@@ -254,6 +254,9 @@ namespace Adxstudio.Xrm.AspNet.Cms
 		/// </summary>
 		/// <param name="app">The app.</param>
 		/// <param name="website">The website record.</param>
+		/// <param name="contentMapProvider">The content map provider.</param>
+		/// <param name="bundles">The bundle collection.</param>
+		/// <param name="registerAction">The register action.</param>
 		public static void ConfigureCulture(this IAppBuilder app, CrmWebsite website, IContentMapProvider contentMapProvider, BundleCollection bundles, Action<BundleCollection, CultureInfo> registerAction)
 		{
 			UseLocalizedBundles(website.Entity, website.Language, contentMapProvider, bundles, registerAction);
@@ -264,6 +267,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 		/// </summary>
 		/// <param name="website"></param>
 		/// <param name="legacyWebsiteLcid">CrmWebsite.Language value, for backwards compatibility with legacy pre-Multi-Language CRM environments.</param>
+		/// <param name="contentMapProvider"></param>
 		/// <param name="bundles"></param>
 		/// <param name="registerAction"></param>
 		private static void UseLocalizedBundles(Entity website, int legacyWebsiteLcid, IContentMapProvider contentMapProvider, BundleCollection bundles, Action<BundleCollection, CultureInfo> registerAction)
