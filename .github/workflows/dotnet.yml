@@ -11,8 +11,10 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: Solutions/Portals
 
     steps:
     - uses: actions/checkout@v4
