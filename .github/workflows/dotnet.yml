@@ -26,9 +26,9 @@ jobs:
       with:
         msbuild-architecture: x64
     - name: NuGet Restore
-      run: nuget restore portal.sln
+      run: nuget restore Solution\Portals\portal.sln
     - name: Run MSBuild
-      run: msbuild portal.sln /p:platform=Any CPU /p:configuration=release /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=$RUNNER_TEMP /p:PrecompileBeforePublish=true /p:EnableUpdateable=false
+      run: msbuild Solution\Portals\portal.sln /p:platform=Any CPU /p:configuration=release /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=$RUNNER_TEMP /p:PrecompileBeforePublish=true /p:EnableUpdateable=false
     - uses: actions/upload-artifact@v4
       with:
         name: adx-portal
