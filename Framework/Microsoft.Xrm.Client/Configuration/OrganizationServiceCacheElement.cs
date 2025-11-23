@@ -121,7 +121,6 @@ namespace Microsoft.Xrm.Client.Configuration
 		/// Creates a <see cref="IOrganizationServiceCache"/> object.
 		/// </summary>
 		/// <param name="cache"></param>
-		/// <param name="cacheItemPolicyFactory"></param>
 		/// <param name="settings"></param>
 		/// <returns></returns>
 		public IOrganizationServiceCache CreateOrganizationServiceCache(ObjectCache cache = null, OrganizationServiceCacheSettings settings = null)

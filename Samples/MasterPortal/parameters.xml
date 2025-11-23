@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<parameters> 
+  <parameter name="XrmConnectionString" defaultValue="local">
+    <parameterEntry kind="XmlFile"
+                    scope="Web.config"
+                    match="/configuration/location[@path='.']/connectionStrings/add[@name='Xrm']"
+                    attributeName="connectionString" />
+    <parameterValidation kind="AllowEmpty" />
+  </parameter>
+</parameters>

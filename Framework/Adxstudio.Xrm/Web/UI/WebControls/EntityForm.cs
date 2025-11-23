@@ -2415,18 +2415,34 @@ namespace Adxstudio.Xrm.Web.UI.WebControls
 			Guid? entityid = Guid.Empty;
 
 			if (e.EntityId != null && e.EntityId != Guid.Empty) { entityid = e.EntityId; }
-
-			AttachFileOnSave(context, entityform, sender, entityid);
-		}
+            try
+            {
+                AttachFileOnSave(context, entityform, sender, entityid);
+            }
+            catch (Exception ex)
+            {
+                e.Exception = ex;
+                e.ExceptionHandled = false;
+                ADXTrace.Instance.TraceError(TraceCategory.Application, ex.ToString());
+            }
+        }
 
 		protected void AttachFileOnItemUpdated(OrganizationServiceContext context, Entity entityform, object sender, CrmEntityFormViewUpdatedEventArgs e)
 		{
 			var entityid = Guid.Empty;
 
 			if (e.Entity != null && e.Entity.Id != Guid.Empty) { entityid = e.Entity.Id; }
-
-			AttachFileOnSave(context, entityform, sender, entityid);
-		}
+			try
+			{
+				AttachFileOnSave(context, entityform, sender, entityid);
+			}
+			catch (Exception ex)
+			{
+				e.Exception = ex;
+				e.ExceptionHandled = false;
+                ADXTrace.Instance.TraceError(TraceCategory.Application, ex.ToString());
+            }
+        }
 
 		protected void AttachFileOnSave(OrganizationServiceContext context, Entity entityform, object sender, Guid? entityid)
 		{
@@ -2436,8 +2452,7 @@ namespace Adxstudio.Xrm.Web.UI.WebControls
 
 			if (entityid == null || entityid == Guid.Empty)
 			{
-				ADXTrace.Instance.TraceError(TraceCategory.Application, "File not saved entityid is null or empty.");
-				return;
+				throw new InvalidOperationException("File not saved: entityid is null or empty.");
 			}
 
 			try
@@ -2447,8 +2462,7 @@ namespace Adxstudio.Xrm.Web.UI.WebControls
 
 				if (string.IsNullOrWhiteSpace(logicalName))
 				{
-					ADXTrace.Instance.TraceError(TraceCategory.Application, "adx_entityform.adx_entityname must not be null.");
-					return;
+					throw new InvalidOperationException("adx_entityform.adx_entityname must not be null.");
 				}
 
 				if (string.IsNullOrWhiteSpace(primaryKey))
@@ -2458,8 +2472,7 @@ namespace Adxstudio.Xrm.Web.UI.WebControls
 
 				if (string.IsNullOrWhiteSpace(primaryKey))
 				{
-					ADXTrace.Instance.TraceError(TraceCategory.Application, "Failed to determine target entity primary key logical name.");
-					return;
+					throw new InvalidOperationException("Failed to determine target entity primary key logical name.");
 				}
 
 				var formView = (CrmEntityFormView)sender;
@@ -2523,7 +2536,11 @@ namespace Adxstudio.Xrm.Web.UI.WebControls
 			}
 			catch (Exception ex)
 			{
+				// Log the error for debugging purposes
 				ADXTrace.Instance.TraceError(TraceCategory.Application, ex.ToString());
+				
+				// Re-throw the exception to bubble it up
+				throw new InvalidOperationException("Failed to attach file to the entity.", ex);
 			}
 		}
 
