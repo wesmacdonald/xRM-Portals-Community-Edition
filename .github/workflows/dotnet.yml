@@ -33,6 +33,6 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: adx-portal
-        path: ${{ runner.temp }}
+        path: ${{ runner.temp }}/MasterPortal*.*
        
     
