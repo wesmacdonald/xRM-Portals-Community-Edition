@@ -28,10 +28,11 @@ jobs:
     - name: NuGet Restore
       run: nuget restore ${{ github.workspace }}\Solutions\Portals\Portals.sln
     - name: Run MSBuild
-      run: msbuild ${{ github.workspace }}\Solutions\Portals\Portals.sln /p:platform=Any CPU /p:configuration=release /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=$RUNNER_TEMP /p:PrecompileBeforePublish=true /p:EnableUpdateable=false
+      working-directory: ${{ github.workspace }}\Solutions\Portals\ 
+      run: msbuild Portals.sln /p:platform="Any CPU" /p:configuration=release /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=${{ runner.temp }}\\ /p:PrecompileBeforePublish=true /p:EnableUpdateable=false
     - uses: actions/upload-artifact@v4
       with:
         name: adx-portal
-        path: $RUNNER_TEMP
+        path: ${{ runner.temp }}
        
     
