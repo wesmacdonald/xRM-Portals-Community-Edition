@@ -27,7 +27,7 @@ jobs:
       run: nuget restore portal.sln
     - name: Run MSBuild
       run: msbuild portal.sln /p:platform=Any CPU /p:configuration=release /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=$RUNNER_TEMP /p:PrecompileBeforePublish=true /p:EnableUpdateable=false
-    - name: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v4
       with:
         name: adx-portal
         path: $RUNNER_TEMP
